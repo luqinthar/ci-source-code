@@ -1,1 +1,23 @@
-Haloo, ini nginx dari proses CI Jenkins dan Argo CD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Web</title>
+</head>
+<body>
+    <h1>Welcome to Simple Web!</h1>
+    <p id="message">Loading...</p>
+    <script>
+        fetch('/config/config.yaml')
+            .then(response => response.text())
+            .then(config => {
+                const message = config.split('\n').find(line => line.startsWith('welcomeMessage')).split(':')[1].trim();
+                document.getElementById("message").textContent = message;
+            })
+            .catch(error => {
+                console.error('Error loading config:', error);
+            });
+    </script>
+</body>
+</html>
